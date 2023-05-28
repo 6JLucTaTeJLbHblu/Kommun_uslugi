@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "742428556296",
+    "project_id": "kommun-uslugi",
+    "storage_bucket": "kommun-uslugi.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:742428556296:android:98794ee5c31db7bd5065bd",
+        "android_client_info": {
+          "package_name": "com.example.kommun_uslugi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "742428556296-fui1063911mbo62rjh91qa6n79mbulpl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCLt1w6BCoY4xlHC4wxT4v7vUn4xuIfLvQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "742428556296-fui1063911mbo62rjh91qa6n79mbulpl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
