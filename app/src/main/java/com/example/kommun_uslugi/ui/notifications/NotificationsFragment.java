@@ -67,7 +67,6 @@ public class NotificationsFragment extends Fragment {
                 }
             }
             if (flag) {
-                System.out.println(cursor.getString(1));
                 current_year = Integer.parseInt(cursor.getString(1).split("-")[2]);
             }
         }
@@ -91,12 +90,12 @@ public class NotificationsFragment extends Fragment {
                 }
                 cursor.moveToPrevious();
             }
-            for (int i = 1; i < 13; i++){
-                if (dataPoints_gas[i] == null){
-                    dataPoints_gas[i] = new DataPoint(0, 0);
-                    dataPoints_water[i] = new DataPoint(0, 0);
-                    dataPoints_electricity[i] = new DataPoint(0, 0);
-                }
+        }
+        for (int i = 1; i < 13; i++){
+            if (dataPoints_gas[i] == null){
+                dataPoints_gas[i] = new DataPoint(0, 0);
+                dataPoints_water[i] = new DataPoint(0, 0);
+                dataPoints_electricity[i] = new DataPoint(0, 0);
             }
         }
         graph_gas.getGridLabelRenderer().setGridColor(Color.BLACK);

@@ -21,6 +21,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.kommun_uslugi.MainActivity;
 import com.example.kommun_uslugi.R;
 import com.example.kommun_uslugi.databinding.FragmentHomeBinding;
+import com.example.kommun_uslugi.ui.table.TableFragment;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -32,7 +33,7 @@ public class HomeFragment extends Fragment {
     private ContentValues contentValues;
     private FragmentHomeBinding binding;
     private int columns = 7;
-    private String[] names_of_columns = {"Settings_Period", "Settings_Gas",  "Settings_Water", "Settings_Outwater", "Settings_Electricity1", "Settings_Electricity2", "Settings_Electricity3"};
+    public static String[] names_of_columns = {"Settings_Period", "Settings_Gas",  "Settings_Water", "Settings_Outwater", "Settings_Electricity1", "Settings_Electricity2", "Settings_Electricity3"};
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {

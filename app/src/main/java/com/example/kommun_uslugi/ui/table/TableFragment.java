@@ -21,6 +21,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.kommun_uslugi.MainActivity;
 import com.example.kommun_uslugi.R;
 import com.example.kommun_uslugi.databinding.FragmentTableBinding;
+import com.example.kommun_uslugi.ui.home.HomeFragment;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -32,7 +33,7 @@ public class TableFragment extends Fragment {
     private ContentValues contentValues;
     private FragmentTableBinding binding;
     private int columns = 10;
-    private String[] names_of_columns = {"Period", "Gas", "Price_gas", "Water", "Outwater", "Water_price", "Electricity1", "Electricity2", "Electricity3", "Price_electricity"};
+    public static String[] names_of_columns = {"Period", "Gas", "Price_gas", "Water", "Outwater", "Water_price", "Electricity1", "Electricity2", "Electricity3", "Price_electricity"};
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -114,8 +115,16 @@ public class TableFragment extends Fragment {
             public void onClick(View v) {
                 SQLiteDatabase database = MainActivity.dbHelper.getWritableDatabase();
                 Cursor cursor = database.query(MainActivity.dbHelper.SETTINGS_TABLE_NAME, null, null, null, null, null, null);
-                if (!cursor.moveToFirst())
-                    database.insert(MainActivity.dbHelper.TABLE_NAME, null, contentValues);
+                contentValues = new ContentValues();
+                for (int j = 0; j < HomeFragment.names_of_columns.length; j++) {
+                    contentValues.put(HomeFragment.names_of_columns[j], "");
+                }
+                if (!cursor.moveToFirst()) {
+                    database.insert(MainActivity.dbHelper.SETTINGS_TABLE_NAME, null, contentValues);
+                    cursor = database.query(MainActivity.dbHelper.SETTINGS_TABLE_NAME, null, null, null, null, null, null);
+                    System.out.println(cursor.getCount());
+                    cursor.moveToFirst();
+                }
                 for (int i = 1; i < main_table.getChildCount(); i++) {
                     contentValues = new ContentValues();
                     TableRow tableRow = (TableRow) main_table.getChildAt(i);
@@ -129,7 +138,7 @@ public class TableFragment extends Fragment {
                                 if (!cursor.moveToPrevious()) {
                                     flag = 1;
                                     cursor.moveToNext();
-                                    Toast.makeText(getContext(), "Добавьте период " + editText_date.getText().toString() + "-" + LocalDate.parse(cursor.getString(1), formatter) + " в настройки", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getContext(), "Добавьте период " + editText_date.getText().toString() + " - " + LocalDate.parse(cursor.getString(1), formatter) + " в настройки", Toast.LENGTH_LONG).show();
                                     break;
                                 }
                             }
@@ -137,8 +146,11 @@ public class TableFragment extends Fragment {
                                 continue;
                         } catch (DateTimeParseException e){
                             if (!editText_date.getText().toString().equals(""))
-                                if (cursor.getString(1).equals(""))
+                                System.out.println(cursor.getCount());
+                                if (cursor.getString(1).isEmpty() || cursor.getString(1).equals("")) {
+                                    System.out.println(cursor.getCount());
                                     Toast.makeText(getContext(), "Отсутствует период " + editText_date.getText().toString() + " в настройках", Toast.LENGTH_LONG).show();
+                                }
                                 else
                                     Toast.makeText(getContext(), "Неверный формат периода в строке " + i, Toast.LENGTH_LONG).show();
                          }
@@ -171,7 +183,7 @@ public class TableFragment extends Fragment {
                                 }
                             }
                         } catch (NumberFormatException e){
-                            Toast.makeText(getContext(), "Отсутствует период " + editText_date.getText().toString() + " в настройках", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getContext(), "Нет данных для периода " + editText_date.getText().toString(), Toast.LENGTH_LONG).show();
                         }
                         contentValues.put(names_of_columns[j], editText.getText().toString());
                     }
