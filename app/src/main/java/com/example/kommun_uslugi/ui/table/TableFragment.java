@@ -43,8 +43,6 @@ public class TableFragment extends Fragment {
         binding = FragmentTableBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-//        final TextView textView = binding.textTable;
-//        tableViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         TableLayout main_table = root.findViewById(R.id.main_table);
         Button add_row_button = root.findViewById(R.id.settings_add_row_button);
         Button save_button = root.findViewById(R.id.save_settings);
