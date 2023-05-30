@@ -47,6 +47,7 @@ public class SettingsFragment extends Fragment {
         SQLiteDatabase database = MainActivity.dbHelper.getWritableDatabase();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yy", Locale.US);
 
+        // Выгрузка данных из бд
         Cursor cursor = database.query(MainActivity.dbHelper.SETTINGS_TABLE_NAME, null, null, null, null, null, null);
         if (cursor.moveToFirst()){
             for (int i = 0; i < cursor.getCount(); i++){
@@ -79,6 +80,7 @@ public class SettingsFragment extends Fragment {
         }
         cursor.close();
 
+        // Добавление нового ряда в таблицу
         settings_add_row_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -96,6 +98,7 @@ public class SettingsFragment extends Fragment {
             }
         });
 
+        // Сохранение настроек в бд
         save_settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

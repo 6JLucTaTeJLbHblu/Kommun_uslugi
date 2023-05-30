@@ -45,6 +45,8 @@ public class GraphicsFragment extends Fragment {
         int months = 1;
         int current_year = Calendar.getInstance().get(Calendar.YEAR);
         boolean flag = true;
+
+        // Определение последнего записанного в таблицу года, расходы за месяца которого будут отображаться в графиках
         if (cursor.moveToLast()){
             while (cursor.getString(1).equals("") || isExcept(cursor.getString(1))) {
                 if (!cursor.moveToPrevious()) {
@@ -63,6 +65,8 @@ public class GraphicsFragment extends Fragment {
         dataPoints_gas[0] = new DataPoint(0, 0);
         dataPoints_water[0] = new DataPoint(0, 0);
         dataPoints_electricity[0] = new DataPoint(0, 0);
+
+        // Добавление графикам информации по стоимости услуг за месяц
         if (cursor.moveToLast()){
             for (int i = 0; i < cursor.getCount(); i++){
                 if (cursor.getString(1).equals("") || isExcept(cursor.getString(1))) {
@@ -85,6 +89,8 @@ public class GraphicsFragment extends Fragment {
                 dataPoints_electricity[i] = new DataPoint(0, 0);
             }
         }
+
+        // Установка нужных параметров графиков
         graph_gas.getGridLabelRenderer().setGridColor(Color.BLACK);
         graph_gas.getGridLabelRenderer().setHorizontalLabelsColor(Color.BLACK);
         graph_gas.getGridLabelRenderer().setHorizontalAxisTitleColor(Color.BLACK);
@@ -131,6 +137,7 @@ public class GraphicsFragment extends Fragment {
         return root;
     }
 
+    // Функция проверяет, является ли дата корректной
     public boolean isExcept(String d){
         try {
             LocalDate date = LocalDate.parse(d, formatter);

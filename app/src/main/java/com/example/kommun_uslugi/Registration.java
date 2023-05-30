@@ -36,6 +36,8 @@ public class Registration extends AppCompatActivity {
         EditText password = findViewById(R.id.register_password);
         EditText repeat_password = findViewById(R.id.register_repeat_password);
         TextView gotoauth = findViewById(R.id.textView4);
+
+        // Переход на окно авторизации
         gotoauth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -43,6 +45,8 @@ public class Registration extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
+        // Регистрация
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -61,6 +65,7 @@ public class Registration extends AppCompatActivity {
                                 startActivity(i);
                             }
                             else{
+                                // Обработка возможных ошибок
                                 try {
                                     throw task.getException();
                                 } catch (FirebaseAuthUserCollisionException e){

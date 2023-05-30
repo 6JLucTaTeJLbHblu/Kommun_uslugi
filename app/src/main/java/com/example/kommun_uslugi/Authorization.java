@@ -37,6 +37,8 @@ public class Authorization extends AppCompatActivity {
         EditText password = findViewById(R.id.authoriz_password);
         Button login = findViewById(R.id.login_button);
         TextView create_account = findViewById(R.id.textView2);
+
+        // Переход на окно регистрации
         create_account.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -44,7 +46,11 @@ public class Authorization extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
+        // Подключение firebase
         firebaseAuth = FirebaseAuth.getInstance();
+
+        // Авторизация
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -60,6 +66,7 @@ public class Authorization extends AppCompatActivity {
                                 startActivity(i);
                             }
                             else{
+                                // Обработка возможных ошибок
                                 try {
                                     throw task.getException();
                                 } catch (FirebaseNoSignedInUserException e){

@@ -10,7 +10,7 @@ public class GraphicsViewModel extends ViewModel {
 
     public GraphicsViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is notifications fragment");
+        mText.setValue("This is Graphics fragment");
     }
 
     public LiveData<String> getText() {

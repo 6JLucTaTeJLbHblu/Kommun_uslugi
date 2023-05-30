@@ -49,6 +49,7 @@ public class TableFragment extends Fragment {
         Button save_button = root.findViewById(R.id.save_settings);
         SQLiteDatabase database = MainActivity.dbHelper.getWritableDatabase();
 
+        // Выгрузка данных из БД
         Cursor cursor = database.query(MainActivity.dbHelper.TABLE_NAME, null, null, null, null, null, null);
         if (cursor.moveToFirst()){
             for (int i = 0; i < cursor.getCount(); i++){
@@ -87,6 +88,7 @@ public class TableFragment extends Fragment {
         }
         cursor.close();
 
+        // Добавление нового ряда в таблицу
         add_row_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -108,6 +110,7 @@ public class TableFragment extends Fragment {
             }
         });
 
+        // Сохранение в бд
         save_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -156,6 +159,8 @@ public class TableFragment extends Fragment {
                                     Toast.makeText(getContext(), "Неверный формат периода в строке " + i, Toast.LENGTH_LONG).show();
                          }
                     }
+
+                    // Подсчет стоимости услуг
                     EditText update_to_zero = (EditText) tableRow.getChildAt(2);
                     update_to_zero.setText("0.00");
                     update_to_zero = (EditText) tableRow.getChildAt(5);
@@ -205,6 +210,7 @@ public class TableFragment extends Fragment {
         return root;
     }
 
+    // Функция проверяет, является ли дата корректной
     public boolean isExcept(String d){
         try {
             LocalDate date = LocalDate.parse(d, formatter);
