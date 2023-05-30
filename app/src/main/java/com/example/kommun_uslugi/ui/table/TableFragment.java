@@ -150,7 +150,7 @@ public class TableFragment extends Fragment {
                                 if (cursor.getString(1).isEmpty() || cursor.getString(1).equals("")) {
                                     Toast.makeText(getContext(), "Отсутствует период " + editText_date.getText().toString() + " в настройках", Toast.LENGTH_LONG).show();
                                 }
-                                else if (isExcept(cursor.getString(1))){
+                                else if (isExceptdate(cursor.getString(1))){
                                     Toast.makeText(getContext(), "Неверный формат периода в строке " + (cursor.getPosition() + 1) + " настроек", Toast.LENGTH_LONG).show();
                                     if (!cursor.moveToPrevious())
                                         cursor.moveToNext();
@@ -189,7 +189,8 @@ public class TableFragment extends Fragment {
                                 }
                             }
                         } catch (NumberFormatException e){
-                            Toast.makeText(getContext(), "Нет данных для периода " + editText_date.getText().toString(), Toast.LENGTH_LONG).show();
+                            if (!isExceptnum(editText.getText().toString()))
+                                Toast.makeText(getContext(), "Нет данных для периода " + editText_date.getText().toString(), Toast.LENGTH_LONG).show();
                         }
                         contentValues.put(names_of_columns[j], editText.getText().toString());
                     }
@@ -211,9 +212,18 @@ public class TableFragment extends Fragment {
     }
 
     // Функция проверяет, является ли дата корректной
-    public boolean isExcept(String d){
+    public boolean isExceptdate(String d){
         try {
             LocalDate date = LocalDate.parse(d, formatter);
+        } catch (Exception e){
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isExceptnum(String d){
+        try {
+            double num = Double.parseDouble(d);
         } catch (Exception e){
             return true;
         }
