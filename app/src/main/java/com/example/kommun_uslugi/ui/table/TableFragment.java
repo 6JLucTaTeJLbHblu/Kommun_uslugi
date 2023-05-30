@@ -221,6 +221,7 @@ public class TableFragment extends Fragment {
         return false;
     }
 
+    // Проверка, является ли строка числом
     public boolean isExceptnum(String d){
         try {
             double num = Double.parseDouble(d);
