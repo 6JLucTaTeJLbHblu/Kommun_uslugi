@@ -23,6 +23,7 @@ import com.example.kommun_uslugi.R;
 import com.example.kommun_uslugi.databinding.FragmentTableBinding;
 import com.example.kommun_uslugi.ui.settings.SettingsFragment;
 
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -34,6 +35,7 @@ public class TableFragment extends Fragment {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yy", Locale.US);
     private FragmentTableBinding binding;
     private int columns = 10;
+    DecimalFormat df = new DecimalFormat("#.##");
     public static String[] names_of_columns = {"Period", "Gas", "Price_gas", "Water", "Outwater", "Water_price", "Electricity1", "Electricity2", "Electricity3", "Price_electricity"};
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -43,7 +45,7 @@ public class TableFragment extends Fragment {
 
         binding = FragmentTableBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-
+        System.out.println(df.format(10.798));
         TableLayout main_table = root.findViewById(R.id.main_table);
         Button add_row_button = root.findViewById(R.id.settings_add_row_button);
         Button save_button = root.findViewById(R.id.save_settings);
@@ -123,7 +125,6 @@ public class TableFragment extends Fragment {
                 if (!cursor.moveToFirst()) {
                     database.insert(MainActivity.dbHelper.SETTINGS_TABLE_NAME, null, contentValues);
                     cursor = database.query(MainActivity.dbHelper.SETTINGS_TABLE_NAME, null, null, null, null, null, null);
-                    System.out.println(cursor.getCount());
                     cursor.moveToFirst();
                 }
                 for (int i = 1; i < main_table.getChildCount(); i++) {
@@ -175,17 +176,38 @@ public class TableFragment extends Fragment {
                                     EditText price_editText = (EditText) tableRow.getChildAt(2);
                                     double gas = Double.parseDouble(editText.getText().toString());
                                     double price = Double.parseDouble(cursor.getString(2));
-                                    price_editText.setText(Double.toString(gas * price));
+                                    if (gas * price > 9999999999.0){
+                                        price_editText.setText("0.00");
+                                        Toast.makeText(getContext(), "Слишком большие числа", Toast.LENGTH_SHORT).show();
+                                    }
+                                    else {
+                                        double ans = gas * price;
+                                        price_editText.setText(Double.toString(Math.ceil(ans)));
+                                    }
                                 } else if (j == 3 || j == 4) {
                                     EditText price_editText = (EditText) tableRow.getChildAt(5);
                                     double water = Double.parseDouble(editText.getText().toString());
                                     double price = Double.parseDouble(cursor.getString(j));
-                                    price_editText.setText(Double.toString(Double.parseDouble(price_editText.getText().toString()) + water * price));
+                                    if (Double.parseDouble(price_editText.getText().toString()) + water * price > 9999999999.0){
+                                        price_editText.setText("0.00");
+                                        Toast.makeText(getContext(), "Слишком большие числа", Toast.LENGTH_SHORT).show();
+                                    }
+                                    else {
+                                        double ans = Double.parseDouble(price_editText.getText().toString()) + water * price;
+                                        price_editText.setText(Double.toString(Math.ceil(ans)));
+                                    }
                                 } else if (j == 6 || j == 7 || j == 8) {
                                     EditText price_editText = (EditText) tableRow.getChildAt(9);
                                     double electricity = Double.parseDouble(editText.getText().toString());
                                     double price = Double.parseDouble(cursor.getString(j - 1));
-                                    price_editText.setText(Double.toString(Double.parseDouble(price_editText.getText().toString()) + electricity * price));
+                                    if (Double.parseDouble(price_editText.getText().toString()) + electricity * price > 9999999999.0){
+                                        price_editText.setText("0.00");
+                                        Toast.makeText(getContext(), "Слишком большие числа", Toast.LENGTH_SHORT).show();
+                                    }
+                                    else {
+                                        double ans = Double.parseDouble(price_editText.getText().toString()) + electricity * price;
+                                        price_editText.setText(Double.toString(Math.ceil(ans)));
+                                    }
                                 }
                             }
                         } catch (NumberFormatException e){

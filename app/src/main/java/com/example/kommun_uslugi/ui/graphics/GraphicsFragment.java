@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -42,7 +43,6 @@ public class GraphicsFragment extends Fragment {
         GraphView graph_gas = (GraphView) root.findViewById(R.id.graph_gas);
         GraphView graph_water = (GraphView) root.findViewById(R.id.graph_water);
         GraphView graph_electricity = (GraphView) root.findViewById(R.id.graph_electricity);
-        int months = 1;
         int current_year = Calendar.getInstance().get(Calendar.YEAR);
         boolean flag = true;
 
@@ -91,6 +91,7 @@ public class GraphicsFragment extends Fragment {
         }
 
         // Установка нужных параметров графиков
+        System.out.println(10);
         graph_gas.getGridLabelRenderer().setGridColor(Color.BLACK);
         graph_gas.getGridLabelRenderer().setHorizontalLabelsColor(Color.BLACK);
         graph_gas.getGridLabelRenderer().setHorizontalAxisTitleColor(Color.BLACK);
@@ -130,9 +131,14 @@ public class GraphicsFragment extends Fragment {
         lineSeries_electricity.setDataWidth(1);
         lineSeries_electricity.setDrawValuesOnTop(true);
         lineSeries_electricity.setValuesOnTopColor(Color.BLACK);
-        graph_gas.addSeries(lineSeries_gas);
-        graph_water.addSeries(lineSeries_water);
-        graph_electricity.addSeries(lineSeries_electricity);
+        System.out.println(1000);
+        try {
+            graph_gas.addSeries(lineSeries_gas);
+            graph_water.addSeries(lineSeries_water);
+            graph_electricity.addSeries(lineSeries_electricity);
+        } catch (IllegalArgumentException e){
+            Toast.makeText(getContext(), "Слишком большая стоимость услуг", Toast.LENGTH_SHORT).show();
+        }
 
         return root;
     }
