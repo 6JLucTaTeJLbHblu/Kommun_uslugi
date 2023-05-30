@@ -1,15 +1,12 @@
-package com.example.kommun_uslugi.ui.notifications;
+package com.example.kommun_uslugi.ui.graphics;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
-import android.graphics.Point;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -17,37 +14,27 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.kommun_uslugi.MainActivity;
 import com.example.kommun_uslugi.R;
-import com.example.kommun_uslugi.databinding.FragmentNotificationsBinding;
-import com.jjoe64.graphview.DefaultLabelFormatter;
+import com.example.kommun_uslugi.databinding.FragmentGraphicsBinding;
 import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
-import com.jjoe64.graphview.series.LineGraphSeries;
 
-import java.lang.reflect.Array;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Locale;
 
-public class NotificationsFragment extends Fragment {
+public class GraphicsFragment extends Fragment {
 
-    private FragmentNotificationsBinding binding;
+    private FragmentGraphicsBinding binding;
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yy", Locale.US);
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        NotificationsViewModel notificationsViewModel =
-                new ViewModelProvider(this).get(NotificationsViewModel.class);
+        GraphicsViewModel notificationsViewModel =
+                new ViewModelProvider(this).get(GraphicsViewModel.class);
 
-        binding = FragmentNotificationsBinding.inflate(inflater, container, false);
+        binding = FragmentGraphicsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         SQLiteDatabase database = MainActivity.dbHelper.getWritableDatabase();

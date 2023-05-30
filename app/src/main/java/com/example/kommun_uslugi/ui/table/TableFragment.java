@@ -21,7 +21,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.kommun_uslugi.MainActivity;
 import com.example.kommun_uslugi.R;
 import com.example.kommun_uslugi.databinding.FragmentTableBinding;
-import com.example.kommun_uslugi.ui.home.HomeFragment;
+import com.example.kommun_uslugi.ui.settings.SettingsFragment;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -31,6 +31,7 @@ import java.util.Locale;
 public class TableFragment extends Fragment {
 
     private ContentValues contentValues;
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yy", Locale.US);
     private FragmentTableBinding binding;
     private int columns = 10;
     public static String[] names_of_columns = {"Period", "Gas", "Price_gas", "Water", "Outwater", "Water_price", "Electricity1", "Electricity2", "Electricity3", "Price_electricity"};
@@ -47,7 +48,6 @@ public class TableFragment extends Fragment {
         Button add_row_button = root.findViewById(R.id.settings_add_row_button);
         Button save_button = root.findViewById(R.id.save_settings);
         SQLiteDatabase database = MainActivity.dbHelper.getWritableDatabase();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yy", Locale.US);
 
         Cursor cursor = database.query(MainActivity.dbHelper.TABLE_NAME, null, null, null, null, null, null);
         if (cursor.moveToFirst()){
@@ -114,8 +114,8 @@ public class TableFragment extends Fragment {
                 SQLiteDatabase database = MainActivity.dbHelper.getWritableDatabase();
                 Cursor cursor = database.query(MainActivity.dbHelper.SETTINGS_TABLE_NAME, null, null, null, null, null, null);
                 contentValues = new ContentValues();
-                for (int j = 0; j < HomeFragment.names_of_columns.length; j++) {
-                    contentValues.put(HomeFragment.names_of_columns[j], "");
+                for (int j = 0; j < SettingsFragment.names_of_columns.length; j++) {
+                    contentValues.put(SettingsFragment.names_of_columns[j], "");
                 }
                 if (!cursor.moveToFirst()) {
                     database.insert(MainActivity.dbHelper.SETTINGS_TABLE_NAME, null, contentValues);
@@ -144,10 +144,13 @@ public class TableFragment extends Fragment {
                                 continue;
                         } catch (DateTimeParseException e){
                             if (!editText_date.getText().toString().equals(""))
-                                System.out.println(cursor.getCount());
                                 if (cursor.getString(1).isEmpty() || cursor.getString(1).equals("")) {
-                                    System.out.println(cursor.getCount());
                                     Toast.makeText(getContext(), "Отсутствует период " + editText_date.getText().toString() + " в настройках", Toast.LENGTH_LONG).show();
+                                }
+                                else if (isExcept(cursor.getString(1))){
+                                    Toast.makeText(getContext(), "Неверный формат периода в строке " + (cursor.getPosition() + 1) + " настроек", Toast.LENGTH_LONG).show();
+                                    if (!cursor.moveToPrevious())
+                                        cursor.moveToNext();
                                 }
                                 else
                                     Toast.makeText(getContext(), "Неверный формат периода в строке " + i, Toast.LENGTH_LONG).show();
@@ -200,6 +203,15 @@ public class TableFragment extends Fragment {
         });
 
         return root;
+    }
+
+    public boolean isExcept(String d){
+        try {
+            LocalDate date = LocalDate.parse(d, formatter);
+        } catch (Exception e){
+            return true;
+        }
+        return false;
     }
 
     @Override

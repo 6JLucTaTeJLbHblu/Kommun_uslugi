@@ -37,6 +37,8 @@ public class Authorization extends AppCompatActivity {
         EditText password = findViewById(R.id.authoriz_password);
         Button login = findViewById(R.id.login_button);
         TextView create_account = findViewById(R.id.textView2);
+        Intent i = new Intent(Authorization.this, MainActivity.class);
+        startActivity(i);
         create_account.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

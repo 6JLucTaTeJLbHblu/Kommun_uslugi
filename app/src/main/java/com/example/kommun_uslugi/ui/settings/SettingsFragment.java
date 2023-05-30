@@ -1,4 +1,4 @@
-package com.example.kommun_uslugi.ui.home;
+package com.example.kommun_uslugi.ui.settings;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -20,27 +20,26 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.kommun_uslugi.MainActivity;
 import com.example.kommun_uslugi.R;
-import com.example.kommun_uslugi.databinding.FragmentHomeBinding;
-import com.example.kommun_uslugi.ui.table.TableFragment;
+import com.example.kommun_uslugi.databinding.FragmentSettingsBinding;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Locale;
 
-public class HomeFragment extends Fragment {
+public class SettingsFragment extends Fragment {
 
     private ContentValues contentValues;
-    private FragmentHomeBinding binding;
+    private FragmentSettingsBinding binding;
     private int columns = 7;
     public static String[] names_of_columns = {"Settings_Period", "Settings_Gas",  "Settings_Water", "Settings_Outwater", "Settings_Electricity1", "Settings_Electricity2", "Settings_Electricity3"};
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        HomeViewModel homeViewModel =
-                new ViewModelProvider(this).get(HomeViewModel.class);
+        SettingsViewModel homeViewModel =
+                new ViewModelProvider(this).get(SettingsViewModel.class);
 
-        binding = FragmentHomeBinding.inflate(inflater, container, false);
+        binding = FragmentSettingsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         TableLayout settings_table = root.findViewById(R.id.settings_table);
         Button settings_add_row_button = root.findViewById(R.id.settings_add_row_button);
